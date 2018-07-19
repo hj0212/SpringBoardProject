@@ -6,33 +6,42 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Board</title>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <style>
 	div {
 		box-sizing: border-box;
-		border: 1px solid black;
 	}
 	#container {
-		width: 900px;
+		width: 700px;
 		margin: 0 auto;
-
 	}
 	
+	table {
+		width: 100%;
+		margin: 50px auto;
+	}
 	.center {
 		margin: 0 auto;
 		text-align: center;
 	}
+	
+	#searcharea{
+		text-align: center;
+	}
+	
+	#write {
+		float: right;
+	}
 </style>
+<script>
+$(document).ready(function() {
+	$("write").click(function() {
+		location.href = "";
+	})
+})
+</script>
 </head>
 <body>
-
-<%-- <c:choose>
-	<c:when test="${empty list}">
-		여기
-	</c:when>
-	<c:otherwise>
-		저기
-	</c:otherwise>
-</c:choose> --%>
 
 <div id="container">
 	<div><h1 class="center">게시판</h1></div>
@@ -63,6 +72,15 @@
 			</c:otherwise>
 		</c:choose>
 	</table>
+	<div class="section">
+		<div id="searcharea">
+			<form action="search.bo">
+				<input type="text" name="keyword"/>
+				<button id="searchbtn">검색</button>
+			</form>
+		</div>
+		<button id="write">글쓰기</button>
+	</div>
 
 </div>
 
