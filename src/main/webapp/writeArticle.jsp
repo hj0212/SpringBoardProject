@@ -25,26 +25,23 @@
 	height: 30px;
 }
 
-#contents {
+textarea {
 	width: 100%;
 	height: 500px;
 }
 </style>
 </head>
 <body>
+<form action="toWriteArticleProc.bo" method="post">
 	<div id="wrapper">
 		<div id="article">
-			<div id="titleCon">
-				<div id="writer">${result.getWriter}</div>
-				<div id="title">${result.getTitle}</div>
-				<div id="writedate">${result.getWritedate}</div>
-				<div id="viewcount">${result.getViewcount}</div>
+			<div>
+				<input type="text" id="title" placeholder="제목을입력하세요" name="title">
 			</div>
 			<div>
-				<div id="contents">${result.getContents}</div>
-				<button type="button" id="back">목록</button>
-				<button type="button" id="edit">수정</button>
-				<button type="button" id="delete">삭제</button>
+				<textarea name="contents"></textarea>
+				<button>작성</button>
+				<button type="button" id="back">취소</button>
 			</div>
 		</div>
 	</div>

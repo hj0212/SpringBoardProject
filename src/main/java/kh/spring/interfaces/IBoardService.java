@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 
 import kh.spring.dto.BoardDTO;
 
-@Component
 public interface IBoardService {
 	public List<BoardDTO> getBoardData();
+	public int insertArticle(String title,String writer, String contents,String ip);
+	public BoardDTO getArticle(int seq);
 }
