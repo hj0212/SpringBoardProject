@@ -40,4 +40,9 @@ public class BoardService implements IBoardService {
 		return dao.getArticle(seq);
 	}
 
+	@Override
+	public int deleteArticle(int seq) {
+		return dao.deleteArticle(seq);
+	}
+
 }

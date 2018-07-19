@@ -73,13 +73,25 @@ public class BoardController {
 		return mav;
 	}
 	
-	@RequestMapping("/toArticle")
+	@RequestMapping("/toArticle.bo")
 	public ModelAndView toArticle(int seq) {
+		seq=1;
 		BoardDTO result = service.getArticle(seq);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
 		mav.setViewName("article.jsp");
 		return mav;
 	}
+	
+	public String toDeleteArticle() {
+		return "redirect:deleteArticle.jsp";		
+	}
 
+	public ModelAndView deleteArticle(int seq) {
+		int result = service.deleteArticle(seq);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("result",result);
+		mav.setViewName("deleteProcView.jsp");
+		return mav;
+	}
 }
