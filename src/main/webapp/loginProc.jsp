@@ -10,15 +10,16 @@
 <body>
 
 	<c:choose>
-		<c:when test="${joinresult >0}">
+		<c:when test="${loginresult[0] eq null}">
 			<script>
-				alert("가입을 환영해용!");
+				alert("다시 로그인 해주세요.");
 				location.href="login.jsp"
 			</script>
 		</c:when>
 		<c:otherwise>
 			<script>
-				alert("다시 시도해주세요");
+				alert("로그인을 환영합니당!");
+				location.href="index.jsp";
 			</script>
 		</c:otherwise>
 	</c:choose>

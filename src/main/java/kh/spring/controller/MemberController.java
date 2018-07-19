@@ -1,5 +1,7 @@
 package kh.spring.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,5 +28,15 @@ public class MemberController {
 		mav.setViewName("joinProc.jsp");
 		return mav;
 	} 
+	
+	@RequestMapping("/loginProc.me")
+	public ModelAndView loginProc(String id, String pw) {
+		List<MemberDTO> result = mservice.loginMember(id, pw);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("loginresult",result);
+		mav.setViewName("loginProc.jsp");
+		return mav;
+	}
+	
 	
 }

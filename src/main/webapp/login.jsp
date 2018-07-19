@@ -35,7 +35,7 @@ input {
 </head>
 <body>
 	<div id="wrap">
-		<form action="login.me" method="post">
+		<form action="loginProc.me" method="post">
 			<div>
 				<input type="text" name="id" placeholder="아이디를 입력하세용"> <br>
 				<input type="text" name="pw" placeholder="비밀번호를 입력하세용"> <br>

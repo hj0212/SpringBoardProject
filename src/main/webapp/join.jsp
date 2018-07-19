@@ -38,7 +38,7 @@ input {
 		<form action="joinProc.me" method="post">
 			<div>
 				<input type="text" name="id" placeholder="아이디를 입력하세용"> <br>
-				<input type="text" name="pw" placeholder="비밀번호를 입력하세용"> <br>
+				<input type="password" name="pw" placeholder="비밀번호를 입력하세용"> <br>
 				<input type="text" name="email" placeholder="이메일을 입력하세용"><br>
 
 			</div>
