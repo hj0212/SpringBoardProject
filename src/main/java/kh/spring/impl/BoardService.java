@@ -45,4 +45,9 @@ public class BoardService implements IBoardService {
 		return dao.deleteArticle(seq);
 	}
 
+	@Override
+	public int editArticle(String title, String contents, String ip, int seq) {
+		return dao.editArticle(title, contents,ip,seq);
+	}
+
 }

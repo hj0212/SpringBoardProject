@@ -1,10 +1,12 @@
 package kh.spring.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -75,7 +77,6 @@ public class BoardController {
 	
 	@RequestMapping("/toArticle.bo")
 	public ModelAndView toArticle(int seq) {
-		seq=1;
 		BoardDTO result = service.getArticle(seq);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
@@ -83,15 +84,33 @@ public class BoardController {
 		return mav;
 	}
 	
-	public String toDeleteArticle() {
-		return "redirect:deleteArticle.jsp";		
-	}
-
+	@RequestMapping("/toDeleteArticleProc.bo")
 	public ModelAndView deleteArticle(int seq) {
 		int result = service.deleteArticle(seq);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
 		mav.setViewName("deleteProcView.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/toEditArticle.bo")
+	public ModelAndView toEditArticle(int seq) {
+		BoardDTO result = service.getArticle(seq);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("result",result);
+		mav.setViewName("editArticle.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/toEditArticleProc.bo")
+	public ModelAndView editArticle(int seq, String title, String contents,HttpServletRequest req) {
+		String ip=req.getRemoteAddr();
+		System.out.println("toEditArticleProc.bo-ip:"+ip);
+		int result = service.editArticle(title,contents,ip,seq);		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("result",result);
+		mav.addObject("seq",seq);
+		mav.setViewName("editArticleProcView.jsp");
 		return mav;
 	}
 }

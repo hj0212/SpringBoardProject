@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -25,41 +25,33 @@
 	height: 30px;
 }
 
-#contents {
+textarea {
 	width: 100%;
 	height: 500px;
 }
 </style>
 <script>
 $(document).ready(function(){
-	$("#delete").click(function(){
-		location.href="toDeleteArticleProc.bo?seq="+${result.seq};
-	})
 	$("#back").click(function(){
-		location.href="boardlist.bo";
-	})
-	$("#edit").click(function(){
-		location.href="toEditArticle.bo?seq="+${result.seq};
+		location.href="toArticle.bo?seq="+${result.seq};
 	})
 })
 </script>
 </head>
 <body>
+<form action="toEditArticleProc.bo?seq=${result.seq }" method="post">
 	<div id="wrapper">
 		<div id="article">
-			<div id="titleCon">
-				<div id="writer">${result.writer}</div>
-				<div id="title">${result.title}</div>
-				<div id="writedate">${result.writedate}</div>
-				<div id="viewcount">${result.viewcount}</div>
+			<div>
+				<input type="text" id="title" name="title" value="${result.title }">
 			</div>
 			<div>
-				<div id="contents">${result.contents}</div>
-				<button type="button" id="back">목록</button>
-				<button type="button" id="edit">수정</button>
-				<button type="button" id="delete">삭제</button>
+				<textarea name="contents">${result.contents}</textarea>
+				<button>수정</button>
+				<button type="button" id="back">취소</button>
 			</div>
 		</div>
 	</div>
+</form>
 </body>
 </html>

@@ -30,6 +30,13 @@ textarea {
 	height: 500px;
 }
 </style>
+<script>
+$(document).ready(function(){
+	$("#back").click(function(){
+		location.href="boardlist.bo";
+	})
+})
+</script>
 </head>
 <body>
 <form action="toWriteArticleProc.bo" method="post">

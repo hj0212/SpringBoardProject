@@ -11,5 +11,5 @@ public interface IBoardDAO {
 	public int insertArticle(String title,String writer, String contents,String ip);
 	public BoardDTO getArticle(int seq);
 	public int deleteArticle(int seq);
-	
+	public int editArticle(String title, String contents, String ip, int seq);	
 }

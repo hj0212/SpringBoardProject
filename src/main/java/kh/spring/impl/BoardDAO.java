@@ -185,14 +185,22 @@ public class BoardDAO implements IBoardDAO {
 				return dto;
 			}
 			
-		});
+		},seq);
 	}
 
 	@Override
 	public int deleteArticle(int seq) {
-		String sql = "delete fom boarddb where seq=?";
+		String sql = "delete from boarddb where seq=?";
 		return template.update(sql,seq);
 	}
+
+	@Override
+	public int editArticle(String title, String contents, String ip, int seq) {
+		String sql="update boarddb set title=?, contents=?, writedate=sysdate where seq=?";
+		return template.update(sql,title, contents,seq);
+	}
+
+	
 	
 	
 	
