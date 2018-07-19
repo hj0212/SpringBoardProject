@@ -1,6 +1,9 @@
 package kh.spring.interfaces;
 
-public interface IBoardDAO {
+import java.util.List;
 
-	
+import kh.spring.dto.BoardDTO;
+
+public interface IBoardDAO {
+	public List<BoardDTO> getBoardData();
 }
