@@ -15,8 +15,7 @@ public class BoardService implements IBoardService {
 
 	@Override
 	public List<BoardDTO> getBoardData() {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getBoardData();
 	}
 
 }
