@@ -18,7 +18,7 @@ public class BoardController {
 
 	@RequestMapping("/boardlist.bo")
 	public ModelAndView goBoardList(String currentPage, String searchTerm) {
-		List<BoardDTO> list = service.getBoardData();
+		
 		int currentPagenum = 0;
 
 		if(currentPage == null) {
@@ -26,6 +26,7 @@ public class BoardController {
 		} else {
 			currentPagenum = Integer.parseInt(currentPage);
 		}
+		List<BoardDTO> list = service.getBoardData(currentPagenum*10-9, currentPagenum*10);
 		String pageNavi = service.getPageNavi(currentPagenum, searchTerm);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);

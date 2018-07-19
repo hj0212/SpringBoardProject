@@ -16,8 +16,8 @@ public class BoardService implements IBoardService {
 	private IBoardDAO dao;
 
 	@Override
-	public List<BoardDTO> getBoardData() {
-		return dao.getBoardData();
+	public List<BoardDTO> getBoardData(int startNum, int endNum) {
+		return dao.getBoardData(startNum, endNum);
 	}
 
 	@Override
