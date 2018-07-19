@@ -20,8 +20,23 @@ public class BoardDAO implements IBoardDAO {
 
 	@Override
 	public List<BoardDTO> getBoardData() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "select * from boarddb";
+		return template.query(sql, new RowMapper<BoardDTO>() {
+
+			@Override
+			public BoardDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				BoardDTO dto = new BoardDTO();
+				dto.setSeq(rs.getInt("seq"));
+				dto.setTitle(rs.getString("title"));
+				dto.setWriter(rs.getString("writer"));
+				dto.setContents(rs.getString("contents"));
+				dto.setWritedate(rs.getString("writedate"));
+				dto.setViewcount(rs.getInt("viewcount"));
+				dto.setIp(rs.getString("ip"));
+				return dto;
+			}
+			
+		});
 	}
 
 	@Override

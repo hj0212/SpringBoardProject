@@ -2,6 +2,8 @@ package kh.spring.controller;
 
 import javax.servlet.http.HttpSession;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +20,12 @@ public class BoardController {
 	
 	@RequestMapping("/boardlist.bo")
 	public ModelAndView goBoardList() {
+		List<BoardDTO> list = service.getBoardData();
 		
-		return null;
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.setViewName("boardList.jsp");
+		return mav;
 	}
 	
 	@RequestMapping("/toWriteArticle.bo")
