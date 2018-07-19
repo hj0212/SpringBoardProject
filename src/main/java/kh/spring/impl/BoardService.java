@@ -21,6 +21,16 @@ public class BoardService implements IBoardService {
 	}
 
 	@Override
+	public List<BoardDTO> getSearchData(int startNum, int endNum, String keyword) {
+		return dao.getSearchData(startNum, endNum, keyword);
+	}
+
+	@Override
+	public String getPageNavi(int currentPage, String searchTerm) {
+		return dao.getPageNavi(currentPage, searchTerm);
+	}
+
+	@Override
 	public int insertArticle(String title, String writer, String contents, String ip) {
 		return dao.insertArticle(title, writer, contents, ip);
 	}
