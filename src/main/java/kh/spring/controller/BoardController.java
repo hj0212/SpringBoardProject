@@ -12,30 +12,38 @@ import kh.spring.interfaces.IBoardService;
 
 @Controller
 public class BoardController {
-	
+
 	@Autowired
 	private IBoardService service;
-	
+
 	@RequestMapping("/boardlist.bo")
-	public ModelAndView goBoardList(int currentPage, String searchTerm) {
+	public ModelAndView goBoardList(String currentPage, String searchTerm) {
 		List<BoardDTO> list = service.getBoardData();
-		String pageNavi = service.getPageNavi(currentPage, searchTerm);
+		int currentPagenum = 0;
+
+		if(currentPage == null) {
+			currentPagenum = 1;
+		} else {
+			currentPagenum = Integer.parseInt(currentPage);
+		}
+		String pageNavi = service.getPageNavi(currentPagenum, searchTerm);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
+		mav.addObject("pageNavi", pageNavi);
 		mav.setViewName("boardList.jsp");
 		return mav;
 	}
-	
+
 	@RequestMapping("/search.bo")
 	public ModelAndView getSearchData(String currentPage, String keyword) {
 		int currentPagenum = 0;
-        
-        if(currentPage == null) {
-           currentPagenum = 1;
-        } else {
-           currentPagenum = Integer.parseInt(currentPage);
-        }
-		
+
+		if(currentPage == null) {
+			currentPagenum = 1;
+		} else {
+			currentPagenum = Integer.parseInt(currentPage);
+		}
+
 		List<BoardDTO> list = service.getSearchData(currentPagenum*10-9, currentPagenum*10, keyword);
 		String pageNavi = service.getPageNavi(currentPagenum, keyword);
 		ModelAndView mav = new ModelAndView();
