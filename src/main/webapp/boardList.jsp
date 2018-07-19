@@ -7,8 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div id="wrapper">
-	<a href="boardlist.bo">게시판</a>
-</div>
+
 </body>
 </html>
