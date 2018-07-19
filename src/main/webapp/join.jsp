@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -37,8 +38,9 @@ input {
 	<div id="wrap">
 		<form action="joinProc.me" method="post">
 			<div>
-				<input type="text" name="id" placeholder="아이디를 입력하세용"> <br>
-				<input type="password" name="pw" placeholder="비밀번호를 입력하세용"> <br>
+				<input type="text" name="id" id="idtext" placeholder="아이디를 입력하세용"> <br>
+				<input type="text" readonly id="idCheck"><br>
+				<input type="password" name="pw" id="pwtext" placeholder="비밀번호를 입력하세용"> <br>
 				<input type="text" name="email" placeholder="이메일을 입력하세용"><br>
 
 			</div>
@@ -52,6 +54,24 @@ input {
 	<script>
 	$("#backB").click(function(){
 		$(location).attr("href","login.jsp");
+	})
+	
+	$("#pwtext").focus(function(){
+		var value = $("#idtext").val();
+		console.log(value);
+		$.ajax({
+			url:"idCheck.me",
+			type:"get",
+			data:{id:value}, 
+			success:function(data){		
+				if(data == 0){
+					$("#idCheck").val("사용가능한 아이디 입니다.");	
+				}else{
+				$("#idCheck").val("사용중인 아이디 입니다.");
+				}
+				},
+			error:function(){console.log("AJAX Request 실패 에러 발생");}  
+		})
 	})
 	</script>
 </body>

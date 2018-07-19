@@ -39,6 +39,23 @@ public class MemberDAO implements IMemberDAO {
 			}
 		});
 	}
+
+	@Override
+	public MemberDTO idCheck(String id) {
+		String sql="select * from memberdb where id=?";
+		Object[] param = {id};
+		return template.queryForObject(sql, param, new RowMapper<MemberDTO>() {
+			public MemberDTO mapRow(ResultSet rs, int rowNum)throws SQLException{
+				MemberDTO tmp = new MemberDTO();
+				tmp.setSeq(rs.getInt("seq"));
+				tmp.setId(rs.getString("id"));
+				tmp.setPw(rs.getString("pw"));
+				tmp.setEmail(rs.getString("email"));
+				return tmp;
+			}
+		});
+		
+	}
 			
 			
 			

@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.spring.dto.MemberDTO;
@@ -30,7 +33,7 @@ public class MemberController {
 	} 
 	
 	@RequestMapping("/loginProc.me")
-	public ModelAndView loginProc(String id, String pw) {
+	public ModelAndView toLoginProc(String id, String pw) {
 		List<MemberDTO> result = mservice.loginMember(id, pw);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("loginresult",result);
@@ -38,5 +41,17 @@ public class MemberController {
 		return mav;
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("/idCheck.me")
+	public int toIdCheck(@RequestBody String id) {
+		System.out.println(id);
+		int result=0;
+		MemberDTO dto =mservice.idCheck(id);
+		if(dto.getId() != null) {
+			result=1;
+			}
+		/*ModelAndView mav = new ModelAndView();
+		mav.addObject("idCheckresult",result);*/
+		return result;
+	}
 }
