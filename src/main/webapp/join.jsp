@@ -35,22 +35,23 @@ input {
 </head>
 <body>
 	<div id="wrap">
-		<form action="login.me" method="post">
+		<form action="joinProc.me" method="post">
 			<div>
 				<input type="text" name="id" placeholder="아이디를 입력하세용"> <br>
 				<input type="text" name="pw" placeholder="비밀번호를 입력하세용"> <br>
+				<input type="text" name="email" placeholder="이메일을 입력하세용"><br>
 
 			</div>
-			<div id="btns">
-				<button id="loginB">로 그 인</button>
-				<button type="button" id="joinB">회원 가입</button>
+			<div id="btns">				
+				<button id="signB">회원 가입</button>
+				<button  type="button" id="backB">뒤로 가기</button>
 			</div>
 		</form>
 	</div>
 	
 	<script>
-	$("#joinB").click(function(){
-		$(location).attr("href","join.me");
+	$("#backB").click(function(){
+		$(location).attr("href","login.jsp");
 	})
 	</script>
 </body>
