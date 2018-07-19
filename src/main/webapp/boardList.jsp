@@ -37,8 +37,8 @@ table {
 </style>
 <script>
 	$(document).ready(function() {
-		$("write").click(function() {
-			location.href = "";
+		$("#write").click(function() {
+			location.href = "toWriteArticle.bo";
 		})
 	})
 </script>
@@ -67,7 +67,7 @@ table {
 					<c:forEach items="${list }" var="item">
 						<tr>
 							<td>${item.seq }</td>
-							<td>${item.title }</td>
+							<td><a href="toArticle.bo?seq=${item.seq }">${item.title }</a></td>
 							<td>${item.writer }</td>
 							<td>${item.writedate }</td>
 							<td>${item.viewcount }</td>

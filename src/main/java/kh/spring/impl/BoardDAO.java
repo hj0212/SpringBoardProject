@@ -170,7 +170,7 @@ public class BoardDAO implements IBoardDAO {
 	@Override
 	public BoardDTO getArticle(int seq) {
 		String sql="select * from boarddb where seq=?";
-		return (BoardDTO) template.query(sql, new RowMapper<BoardDTO>() {
+		return template.queryForObject(sql, new RowMapper<BoardDTO>() {
 
 			@Override
 			public BoardDTO mapRow(ResultSet rs, int row) throws SQLException {
@@ -186,6 +186,12 @@ public class BoardDAO implements IBoardDAO {
 			}
 			
 		});
+	}
+
+	@Override
+	public int deleteArticle(int seq) {
+		String sql = "delete fom boarddb where seq=?";
+		return template.update(sql,seq);
 	}
 	
 	

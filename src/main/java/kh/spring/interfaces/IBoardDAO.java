@@ -10,4 +10,6 @@ public interface IBoardDAO {
 	public String getPageNavi(int currentPage, String searchTerm);
 	public int insertArticle(String title,String writer, String contents,String ip);
 	public BoardDTO getArticle(int seq);
+	public int deleteArticle(int seq);
+	
 }
