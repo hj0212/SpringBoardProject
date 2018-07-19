@@ -1,5 +1,6 @@
 package kh.spring.interfaces;
 
-public interface IBoadDAO {
+public interface IBoardDAO {
 
+	
 }

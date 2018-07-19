@@ -1,5 +1,5 @@
 package kh.spring.interfaces;
 
-public interface IBoadService {
+public interface IBoardService {
 
 }
