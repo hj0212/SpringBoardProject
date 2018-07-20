@@ -19,7 +19,7 @@ div {
 
 table {
 	width: 100%;
-	margin: 20px auto;
+	margin: 30px auto 10px auto;
 	text-align: center;
 }
 
