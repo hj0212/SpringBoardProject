@@ -45,15 +45,16 @@ div {
 	padding: 3px;
 }
 
-fieldset{
+fieldset {
 	width: 500px;
 	height: 200px;
 	text-align: center;
 	margin: 100px auto;
 	padding: 50px auto;
 }
-legend{
-	color:red;
+
+legend {
+	color: red;
 }
 
 #commenttable {
@@ -133,6 +134,10 @@ legend{
 						<div id="contents" align="left">${result.contents}</div>
 						<div>
 							<button type="button" id="back">목록</button>
+							<c:if test="${loginId == result.writer}">
+								<button type="button" id="edit">수정</button>
+								<button type="button" id="delete">삭제</button>
+							</c:if>
 						</div>
 					</div>
 				</div>
