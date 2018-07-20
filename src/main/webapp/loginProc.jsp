@@ -18,7 +18,7 @@
 		</c:when>
 		<c:otherwise>
 			<script>
-				alert("로그인을 환영합니당!");
+				alert("방문을 환영합니당!");
 				location.href="index.jsp";
 			</script>
 		</c:otherwise>
