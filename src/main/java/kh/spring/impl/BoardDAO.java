@@ -196,8 +196,8 @@ public class BoardDAO implements IBoardDAO {
 
 	@Override
 	public int editArticle(BoardDTO dto) {
-		String sql="update boarddb set title=?, contents=?, writedate=sysdate where seq=?";
-		return template.update(sql,dto.getTitle(),dto.getWriter(),dto.getContents(),dto.getSeq());
+		String sql="update boarddb set title=?, contents=?, ip=?, writedate=sysdate where seq=?";
+		return template.update(sql,dto.getTitle(),dto.getContents(),dto.getIp(), dto.getSeq());
 	}
 
 	
