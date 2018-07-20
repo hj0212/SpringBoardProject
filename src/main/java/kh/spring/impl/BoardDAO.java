@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import kh.spring.dto.BoardDTO;
+import kh.spring.dto.CommentDTO;
 import kh.spring.interfaces.IBoardDAO;
 
 @Component
@@ -19,9 +20,10 @@ public class BoardDAO implements IBoardDAO {
 	private JdbcTemplate template;
 
 	@Override
-	public List<BoardDTO> getBoardData() {
-		String sql = "select * from boarddb";
-		return template.query(sql, new RowMapper<BoardDTO>() {
+	public List<BoardDTO> getBoardData(int startNum, int endNum) {
+		String sql = "select * from (select seq,title,writer,contents,writedate,viewcount,ip, row_number() over(order by seq desc) as rnum from boarddb) where rnum between ? and ?";
+		Object[] params = {startNum, endNum};
+		return template.query(sql, params, new RowMapper<BoardDTO>() {
 
 			@Override
 			public BoardDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -43,8 +45,8 @@ public class BoardDAO implements IBoardDAO {
 		String sql = null;
 
 		if(searchTerm == null || searchTerm.equals("null")) {
-			sql = "select seq,title,writer,contents,writedate,viewcount,ip, row_number() over(order by seq desc) as num from boarddb) where num between ? and ? from boarddb";
-			Object[] params = {startNum,endNum,searchTerm};
+			sql = "select * from (select seq,title,writer,contents,writedate,viewcount,ip, row_number() over(order by seq desc) as rnum from boarddb) where rnum between ? and ?";
+			Object[] params = {startNum,endNum};
 			return template.query(sql, params, new RowMapper<BoardDTO>() {
 
 				@Override
@@ -61,8 +63,8 @@ public class BoardDAO implements IBoardDAO {
 				}
 			});
 		} else {
-			sql = "select seq,title,writer,contents,writedate,viewcount,ip, row_number() over(order by seq desc) as num from boarddb) where num between ? and ? from boarddb where title=?";
-			Object[] params = {startNum,endNum,searchTerm};
+			sql = "select * from (select seq,title,writer,contents,writedate,viewcount,ip, row_number() over(order by seq desc) as rnum from boarddb) where title=? and rnum between ? and ?";
+			Object[] params = {searchTerm,startNum,endNum};
 			return template.query(sql, params, new RowMapper<BoardDTO>() {
 
 				@Override
@@ -143,28 +145,28 @@ public class BoardDAO implements IBoardDAO {
 		StringBuilder sb = new StringBuilder();
 
 		if(needPrev) {
-			sb.append("<li class='page-item'><a class='page-link' href='freeboard.bo?currentPage="+(startNavi-1)+"&search="+searchTerm+"' aria-label='Previous'><span aria-hidden=\"true\">&laquo;</span><span class=\"sr-only\">Previous</span></a></li>");
+			sb.append("<a class='page-link' href='boardlist.bo?currentPage="+(startNavi-1)+"&search="+searchTerm+"'> Previous </a>");
 		}
 
 		for(int i = startNavi; i <= endNavi; i++) {
 			if(currentPage == i) {
-				sb.append("<li class='page-item'><a class='page-link' href='freeboard.bo?currentPage="+i+"&search="+searchTerm+"'>"+i+"</a></li>");
+				sb.append("<a class='page-link' href='boardlist.bo?currentPage="+i+"&search="+searchTerm+"'> "+i+" </a>");
 			} else {
-				sb.append("<li class='page-item'><a class='page-link' href='freeboard.bo?currentPage="+i+"&search="+searchTerm+"'> "+i+"</a></li>");
+				sb.append("<a class='page-link' href='boardlist.bo?currentPage="+i+"&search="+searchTerm+"'> "+i+" </a>");
 			}
 		}
 
 		if(needNext) {
-			sb.append("<li class='page-item'><a class='page-link' href='freeboard.bo?currentPage="+(startNavi-1)+"&search="+searchTerm+"' aria-label='Next'><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>");
+			sb.append("<a class='page-link' href='boardlist.bo?currentPage="+(startNavi-1)+"&search="+searchTerm+"'> Next </a>");
 		}
 
 		return sb.toString();
 	}
 
 	@Override
-	public int insertArticle(String title, String writer, String contents, String ip) {
+	public int insertArticle(BoardDTO dto) {
 		String sql="insert into boarddb values(board_seq.nextval,?,?,?,sysdate,0,?)";
-		return template.update(sql,title,writer,contents,ip);
+		return template.update(sql,dto.getTitle(),dto.getWriter(),dto.getContents(),dto.getIp());
 	}
 
 	@Override
@@ -185,14 +187,47 @@ public class BoardDAO implements IBoardDAO {
 				return dto;
 			}
 			
-		});
+		},seq);
 	}
 
 	@Override
 	public int deleteArticle(int seq) {
-		String sql = "delete fom boarddb where seq=?";
+		String sql = "delete from boarddb where seq=?";
 		return template.update(sql,seq);
 	}
+
+	@Override
+	public int editArticle(BoardDTO dto) {
+		String sql="update boarddb set title=?, contents=?, writedate=sysdate where seq=?";
+		return template.update(sql,dto.getTitle(),dto.getWriter(),dto.getContents(),dto.getSeq());
+	}
+
+	@Override
+	public List<CommentDTO> getArticleComment(int seq) {
+		String sql = "select * from board_commentdb where article_no = ?";
+		return template.query(sql, new RowMapper<CommentDTO>() {
+			@Override
+			public CommentDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				CommentDTO dto = new CommentDTO();
+				dto.setArticle_no(rs.getInt("article_no"));
+				dto.setSeq(rs.getInt("seq"));
+				dto.setContents(rs.getString("contents"));
+				dto.setWriter(rs.getString("writer"));
+				dto.setWritedate(rs.getString("writedate"));
+				dto.setIp(rs.getString("ip"));
+				return dto;
+			}
+			
+		}, seq);
+	}
+
+	@Override
+	public int insertComment(CommentDTO dto) {
+		String sql = "insert into board_commentdb values(?,board_comment_seq.nextval,?,?,sysdate,?)";
+		return template.update(sql, dto.getArticle_no(), dto.getContents(), dto.getWriter(), dto.getIp());
+	}
+
+	
 	
 	
 	

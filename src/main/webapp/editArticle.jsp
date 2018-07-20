@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -33,21 +33,21 @@ textarea {
 <script>
 $(document).ready(function(){
 	$("#back").click(function(){
-		location.href="boardlist.bo";
+		location.href="toArticle.bo?seq="+${result.seq};
 	})
 })
 </script>
 </head>
 <body>
-<form action="toWriteArticleProc.bo" method="post">
+<form action="toEditArticleProc.bo?seq=${result.seq }" method="post">
 	<div id="wrapper">
 		<div id="article">
 			<div>
-				<input type="text" id="title" placeholder="제목을입력하세요" name="title">
+				<input type="text" id="title" name="title" value="${result.title }">
 			</div>
 			<div>
-				<textarea name="contents"></textarea>
-				<button>작성</button>
+				<textarea name="contents">${result.contents}</textarea>
+				<button>수정</button>
 				<button type="button" id="back">취소</button>
 			</div>
 		</div>
