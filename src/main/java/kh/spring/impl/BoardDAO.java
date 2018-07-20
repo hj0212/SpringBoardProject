@@ -198,8 +198,8 @@ public class BoardDAO implements IBoardDAO {
 
 	@Override
 	public int editArticle(BoardDTO dto) {
-		String sql="update boarddb set title=?, contents=?, writedate=sysdate where seq=?";
-		return template.update(sql,dto.getTitle(),dto.getWriter(),dto.getContents(),dto.getSeq());
+		String sql="update boarddb set title=?, contents=?, ip=?, writedate=sysdate where seq=?";
+		return template.update(sql,dto.getTitle(),dto.getContents(),dto.getIp(), dto.getSeq());
 	}
 
 	@Override
@@ -231,6 +231,12 @@ public class BoardDAO implements IBoardDAO {
 	public int deleteComment(int comseq) {
 		String sql = "delete from board_commentdb where seq=?";
 		return template.update(sql, comseq);
+	}
+
+	@Override
+	public int updateViewCount(int seq) {
+		String sql = "update boarddb set viewcount=nvl(viewcount,0)+1 where seq=?";
+		return template.update(sql,seq);
 	}
 
 	

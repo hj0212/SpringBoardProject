@@ -16,4 +16,5 @@ public interface IBoardService {
 	public List<CommentDTO> getArticleComment(int seq);
 	public int insertComment(CommentDTO dto);
 	public int deleteComment(int comseq);
+	public int updateViewCount(int seq);
 }

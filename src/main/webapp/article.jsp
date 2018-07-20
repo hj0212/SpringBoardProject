@@ -46,7 +46,7 @@ div {
 }
 
 fieldset {
-	width: 500px;
+	width: 500px;	
 	height: 200px;
 	text-align: center;
 	margin: 100px auto;

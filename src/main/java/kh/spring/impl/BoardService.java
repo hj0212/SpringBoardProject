@@ -66,4 +66,9 @@ public class BoardService implements IBoardService {
 		return dao.deleteComment(comseq);
 	}
 
+	@Override
+	public int updateViewCount(int seq) {
+		return dao.updateViewCount(seq);
+	}
+
 }
