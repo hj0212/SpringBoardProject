@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import kh.spring.dto.BoardDTO;
+import kh.spring.dto.CommentDTO;
 import kh.spring.interfaces.IBoardDAO;
 import kh.spring.interfaces.IBoardService;
 
@@ -16,8 +17,43 @@ public class BoardService implements IBoardService {
 	private IBoardDAO dao;
 
 	@Override
-	public List<BoardDTO> getBoardData() {
-		return dao.getBoardData();
+	public List<BoardDTO> getBoardData(int startNum, int endNum) {
+		return dao.getBoardData(startNum, endNum);
+	}
+
+	@Override
+	public List<BoardDTO> getSearchData(int startNum, int endNum, String keyword) {
+		return dao.getSearchData(startNum, endNum, keyword);
+	}
+
+	@Override
+	public String getPageNavi(int currentPage, String searchTerm) {
+		return dao.getPageNavi(currentPage, searchTerm);
+	}
+
+	@Override
+	public int insertArticle(String title, String writer, String contents, String ip) {
+		return dao.insertArticle(title, writer, contents, ip);
+	}
+
+	@Override
+	public BoardDTO getArticle(int seq) {
+		return dao.getArticle(seq);
+	}
+
+	@Override
+	public int deleteArticle(int seq) {
+		return dao.deleteArticle(seq);
+	}
+
+	@Override
+	public int editArticle(String title, String contents, String ip, int seq) {
+		return dao.editArticle(title, contents,ip,seq);
+	}
+
+	@Override
+	public List<CommentDTO> getArticleComment(int seq) {
+		return dao.getArticleComment(seq);
 	}
 
 }
