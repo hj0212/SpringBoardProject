@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import kh.spring.dto.BoardDTO;
+import kh.spring.dto.CommentDTO;
 import kh.spring.interfaces.IBoardDAO;
 
 @Component
@@ -199,6 +200,25 @@ public class BoardDAO implements IBoardDAO {
 	public int editArticle(String title, String contents, String ip, int seq) {
 		String sql="update boarddb set title=?, contents=?, writedate=sysdate where seq=?";
 		return template.update(sql,title, contents,seq);
+	}
+
+	@Override
+	public List<CommentDTO> getArticleComment(int seq) {
+		String sql = "select * from board_commentdb where article_no = ?";
+		return template.query(sql, new RowMapper<CommentDTO>() {
+			@Override
+			public CommentDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				CommentDTO dto = new CommentDTO();
+				dto.setArticle_no(rs.getInt("article_no"));
+				dto.setSeq(rs.getInt("seq"));
+				dto.setContents(rs.getString("contents"));
+				dto.setWriter(rs.getString("writer"));
+				dto.setWritedate(rs.getString("writedate"));
+				dto.setIp(rs.getString("ip"));
+				return dto;
+			}
+			
+		}, seq);
 	}
 
 	

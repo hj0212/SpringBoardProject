@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import kh.spring.dto.BoardDTO;
+import kh.spring.dto.CommentDTO;
 import kh.spring.interfaces.IBoardDAO;
 import kh.spring.interfaces.IBoardService;
 
@@ -48,6 +49,11 @@ public class BoardService implements IBoardService {
 	@Override
 	public int editArticle(String title, String contents, String ip, int seq) {
 		return dao.editArticle(title, contents,ip,seq);
+	}
+
+	@Override
+	public List<CommentDTO> getArticleComment(int seq) {
+		return dao.getArticleComment(seq);
 	}
 
 }

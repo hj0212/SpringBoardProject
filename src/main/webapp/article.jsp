@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -55,10 +56,37 @@ $(document).ready(function(){
 			</div>
 			<div>
 				<div id="contents">${result.contents}</div>
-				<button type="button" id="back">목록</button>
-				<button type="button" id="edit">수정</button>
-				<button type="button" id="delete">삭제</button>
+				<div>
+					<button type="button" id="back">목록</button>
+					<button type="button" id="edit">수정</button>
+					<button type="button" id="delete">삭제</button>
+				</div>
 			</div>
+		</div>
+		<div id="comment">
+			<table>
+				<tr>
+					<td>댓글 내용</td>
+					<td>작성자</td>
+					<td>작성시간</td>
+				</tr>
+				<c:choose>
+					<c:when test="${empty commentlist }">
+						<tr>
+							<td colspan=3> 작성된 댓글이 없습니다. </td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach items="${commentlist }" var="comment">
+							<tr>
+								<td>${comment.contents }</td>
+								<td>${comment.writer }</td>
+								<td>${comment.writerdate }</td>							
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</table>
 		</div>
 	</div>
 </body>

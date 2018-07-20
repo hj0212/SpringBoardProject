@@ -3,6 +3,7 @@ package kh.spring.interfaces;
 import java.util.List;
 
 import kh.spring.dto.BoardDTO;
+import kh.spring.dto.CommentDTO;
 
 public interface IBoardService {
 	public List<BoardDTO> getBoardData(int startNum, int endNum);
@@ -12,4 +13,5 @@ public interface IBoardService {
 	public BoardDTO getArticle(int seq);
 	public int deleteArticle(int seq);
 	public int editArticle(String title, String contents, String ip, int seq);
+	public List<CommentDTO> getArticleComment(int seq);
 }

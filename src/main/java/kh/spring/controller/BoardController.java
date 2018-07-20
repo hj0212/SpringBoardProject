@@ -1,17 +1,17 @@
 package kh.spring.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.spring.dto.BoardDTO;
+import kh.spring.dto.CommentDTO;
 import kh.spring.interfaces.IBoardService;
 
 @Controller
@@ -79,8 +79,10 @@ public class BoardController {
 	@RequestMapping("/toArticle.bo")
 	public ModelAndView toArticle(int seq) {
 		BoardDTO result = service.getArticle(seq);
+		List<CommentDTO> commentlist = service.getArticleComment(seq);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
+		mav.addObject("commentlist", commentlist);
 		mav.setViewName("article.jsp");
 		return mav;
 	}
