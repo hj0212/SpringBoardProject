@@ -88,6 +88,11 @@ legend {
 		$("#edit").click(function() {
 			location.href = "toEditArticle.bo?seq=" + ${result.seq};
 		})
+		
+		$("#commenttable").on("click","#commentremobtn", function() {
+			var commentseq = $("#commentseq").val();
+			location.href = "toRemoveComment.bo?seq=${result.seq}&comseq=" + commentseq;	
+		})
 	})
 </script>
 </head>
@@ -134,11 +139,11 @@ legend {
 					</div>
 				</div>
 				<div id="commentlist">
-					<table border="1" id="commenttable">
-						<tr>
-							<td>댓글 내용</td>
-							<td width="100">작성자</td>
-							<td width="150">작성시간</td>
+					<table id="commenttable">
+						<tr class="head">
+							<th>댓글 내용</td>
+							<th width="80">작성자</td>
+							<th width="130">작성시간</td>
 						</tr>
 						<c:choose>
 							<c:when test="${empty commentlist }">
@@ -149,7 +154,13 @@ legend {
 							<c:otherwise>
 								<c:forEach items="${commentlist }" var="comment">
 									<tr>
-										<td align="left">${comment.contents }</td>
+										<td align="left">
+											<input type="hidden" id="commentseq" value="${comment.seq }"/>
+											${comment.contents }
+											<c:if test="${comment.writer eq loginId }">
+											<button id="commentremobtn">삭제</button>
+											</c:if>
+										</td>
 										<td>${comment.writer }</td>
 										<td>${comment.writedate }</td>
 									</tr>
@@ -158,7 +169,7 @@ legend {
 						</c:choose>
 					</table>
 				</div>
-				<form action="comment.bo" method="post">
+				<form action="toAddComment.bo" method="post">
 					<div id="comment">
 						<input type="hidden" name="article_no" value="${result.seq }" />
 						<textarea name="contents" id="comment_textarea" cols="90" rows="5"></textarea>

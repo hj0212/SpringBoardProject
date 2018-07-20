@@ -121,17 +121,23 @@ public class BoardController {
 		return mav;
 	}
 	
-	@RequestMapping("/comment.bo")
-	public String writeComment(HttpServletRequest request, HttpSession session, String article_no, CommentDTO dto) {
+	@RequestMapping("/toAddComment.bo")
+	public String writeComment(HttpServletRequest request, HttpSession session, int article_no, CommentDTO dto) {
 		String ip = request.getRemoteAddr();
-		int article_nonum = Integer.parseInt(article_no);
 		String writer = (String)session.getAttribute("id");
 		dto.setIp(ip);
-		dto.setArticle_no(article_nonum);
+		dto.setArticle_no(article_no);
 		dto.setWriter(writer);
 		service.insertComment(dto);
 		
 		return "toArticle.bo?seq=" + article_no;
+	}
+	
+	@RequestMapping("/toRemoveComment.bo")
+	public String removeComment(String seq, int comseq) {
+		System.out.println(seq + ":" + comseq);
+		service.deleteComment(comseq);
+		return "toArticle.bo?seq=" + seq;
 	}
 	
 }

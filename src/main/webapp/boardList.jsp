@@ -43,6 +43,11 @@ table {
 #page a{
 	text-decoration: none;
 }
+
+table a {
+	text-decoration: none;
+	color: black;
+}
 </style>
 <script>
 	$(document).ready(function() {
@@ -61,7 +66,7 @@ table {
 		<table border="1">
 			<tr>
 				<td>글번호</td>
-				<td width="300px">글제목</td>
+				<td width="310px">글제목</td>
 				<td width="100px">작성자</td>
 				<td width="110px">작성일</td>
 				<td>조회수</td>

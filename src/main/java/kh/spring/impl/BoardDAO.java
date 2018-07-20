@@ -227,6 +227,12 @@ public class BoardDAO implements IBoardDAO {
 		return template.update(sql, dto.getArticle_no(), dto.getContents(), dto.getWriter(), dto.getIp());
 	}
 
+	@Override
+	public int deleteComment(int comseq) {
+		String sql = "delete from board_commentdb where seq=?";
+		return template.update(sql, comseq);
+	}
+
 	
 	
 	

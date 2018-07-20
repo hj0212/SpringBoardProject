@@ -15,4 +15,5 @@ public interface IBoardDAO {
 	public int editArticle(BoardDTO dto);
 	public List<CommentDTO> getArticleComment(int seq);
 	public int insertComment(CommentDTO dto);
+	public int deleteComment(int comseq);
 }
