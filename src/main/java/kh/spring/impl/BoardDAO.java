@@ -162,4 +162,47 @@ public class BoardDAO implements IBoardDAO {
 		return sb.toString();
 	}
 
+	@Override
+	public int insertArticle(String title, String writer, String contents, String ip) {
+		String sql="insert into boarddb values(board_seq.nextval,?,?,?,sysdate,0,?)";
+		return template.update(sql,title,writer,contents,ip);
+	}
+
+	@Override
+	public BoardDTO getArticle(int seq) {
+		String sql="select * from boarddb where seq=?";
+		return template.queryForObject(sql, new RowMapper<BoardDTO>() {
+
+			@Override
+			public BoardDTO mapRow(ResultSet rs, int row) throws SQLException {
+				BoardDTO dto = new BoardDTO();
+				dto.setSeq(rs.getInt("seq"));
+				dto.setTitle(rs.getString("title"));
+				dto.setWriter(rs.getString("writer"));
+				dto.setContents(rs.getString("contents"));
+				dto.setWritedate(rs.getString("writedate"));
+				dto.setViewcount(rs.getInt("viewcount"));
+				dto.setIp(rs.getString("ip"));
+				return dto;
+			}
+			
+		},seq);
+	}
+
+	@Override
+	public int deleteArticle(int seq) {
+		String sql = "delete from boarddb where seq=?";
+		return template.update(sql,seq);
+	}
+
+	@Override
+	public int editArticle(String title, String contents, String ip, int seq) {
+		String sql="update boarddb set title=?, contents=?, writedate=sysdate where seq=?";
+		return template.update(sql,title, contents,seq);
+	}
+
+	
+	
+	
+	
 }

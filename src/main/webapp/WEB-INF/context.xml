@@ -7,8 +7,10 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
+	<!-- @Component -->
 	<context:component-scan base-package="kh.spring"/>
 	
+	<!-- jdbcTemplate -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
@@ -20,8 +22,10 @@
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
 	
+	<!-- Transaction처리 : @Transactional -->
 	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource"></property>	
-	</bean>
+		<property name="dataSource" ref="dataSource"/>
+	</bean>	
 	<tx:annotation-driven/>
+	
 </beans>

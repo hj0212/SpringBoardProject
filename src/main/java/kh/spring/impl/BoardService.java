@@ -30,4 +30,24 @@ public class BoardService implements IBoardService {
 		return dao.getPageNavi(currentPage, searchTerm);
 	}
 
+	@Override
+	public int insertArticle(String title, String writer, String contents, String ip) {
+		return dao.insertArticle(title, writer, contents, ip);
+	}
+
+	@Override
+	public BoardDTO getArticle(int seq) {
+		return dao.getArticle(seq);
+	}
+
+	@Override
+	public int deleteArticle(int seq) {
+		return dao.deleteArticle(seq);
+	}
+
+	@Override
+	public int editArticle(String title, String contents, String ip, int seq) {
+		return dao.editArticle(title, contents,ip,seq);
+	}
+
 }
