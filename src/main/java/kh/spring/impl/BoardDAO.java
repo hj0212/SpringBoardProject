@@ -227,6 +227,12 @@ public class BoardDAO implements IBoardDAO {
 		return template.update(sql, dto.getArticle_no(), dto.getContents(), dto.getWriter(), dto.getIp());
 	}
 
+	@Override
+	public int updateViewCount(int seq) {
+		String sql = "update boarddb set viewcount=nvl(viewcount,0)+1 where seq=?";
+		return template.update(sql,seq);
+	}
+
 	
 	
 	

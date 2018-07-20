@@ -79,6 +79,7 @@ public class BoardController {
 	@RequestMapping("/toArticle.bo")
 	public ModelAndView toArticle(HttpSession session, int seq) {
 		BoardDTO result = service.getArticle(seq);
+		service.updateViewCount(seq);
 		List<CommentDTO> commentlist = service.getArticleComment(seq);
 		String loginId = (String) session.getAttribute("id");
 		ModelAndView mav = new ModelAndView();

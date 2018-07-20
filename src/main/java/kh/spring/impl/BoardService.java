@@ -61,4 +61,9 @@ public class BoardService implements IBoardService {
 		return dao.insertComment(dto);
 	}
 
+	@Override
+	public int updateViewCount(int seq) {
+		return dao.updateViewCount(seq);
+	}
+
 }
