@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -64,12 +65,11 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/toWriteArticleProc.bo")
-	public ModelAndView writeArticle(HttpSession session,String title,String contents) {
-		String writer = (String) session.getAttribute("id");
-		String ip = (String) session.getAttribute("ip");
-		System.out.println("writer/ip 넣지않음");
+	public ModelAndView writeArticle(HttpServletRequest request, HttpSession session,String title,String contents) {
+		String writer = (String)session.getAttribute("id");
+		String ip = request.getRemoteAddr();
 		System.out.println("BoardController writeArticleProc.bo :"+writer+":"+ip);
-		int result=service.insertArticle(title, "test:writer", contents, "test:IP");
+		int result=service.insertArticle(title, writer, contents, "test:IP");
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
 		mav.setViewName("writeArticleProcView.jsp");
@@ -118,12 +118,14 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/comment.bo")
-	public String writeComment(HttpServletRequest request, String article_no, CommentDTO dto) {
+	public String writeComment(HttpServletRequest request, HttpSession session, String article_no, CommentDTO dto) {
 		String ip = request.getRemoteAddr();
 		int article_nonum = Integer.parseInt(article_no);
+		String writer = (String)session.getAttribute("id");
 		dto.setIp(ip);
 		dto.setArticle_no(article_nonum);
-		int result = service.insertComment(dto);
+		dto.setWriter(writer);
+		service.insertComment(dto);
 		
 		return "toArticle.bo?seq=" + article_no;
 	}

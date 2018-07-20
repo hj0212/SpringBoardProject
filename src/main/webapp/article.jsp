@@ -9,7 +9,6 @@
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <style>
 div {
-	border: 1px solid black;
 	box-sizing: border-box;
 }
 
@@ -43,15 +42,21 @@ div {
 #contents {
 	width: 100%;
 	height: 500px;
+	padding: 3px;
 }
 
 #commenttable {
 	width: 100%;
+	margin-top: 10px;
 }
 
 #comment {
 	margin: 10px auto;
 	height: 80px;
+}
+
+#commentbtn {
+	height: 100%;
 }
 
 #comment_textarea {
@@ -78,7 +83,7 @@ $(document).ready(function(){
 	<div id="wrapper">
 		<div id="article">
 			<div id="titleCon">
-				<div id="title">${result.title}</div>
+				<div id="title"><h3>${result.title}</h3></div>
 				<div id="info">
 					<div id="writer">작성자 ${result.writer}</div>
 					<div id="writedate">작성일 ${result.writedate}</div>
@@ -86,7 +91,7 @@ $(document).ready(function(){
 				</div>
 			</div>
 			<div>
-				<div id="contents">${result.contents}</div>
+				<div id="contents" align="left">${result.contents}</div>
 				<div>
 					<button type="button" id="back">목록</button>
 					<button type="button" id="edit">수정</button>
@@ -98,7 +103,7 @@ $(document).ready(function(){
 			<table border="1" id="commenttable">
 				<tr>
 					<td>댓글 내용</td>
-					<td width="150">작성자</td>
+					<td width="100">작성자</td>
 					<td width="150">작성시간</td>
 				</tr>
 				<c:choose>
@@ -110,9 +115,9 @@ $(document).ready(function(){
 					<c:otherwise>
 						<c:forEach items="${commentlist }" var="comment">
 							<tr>
-								<td>${comment.contents }</td>
+								<td align="left">${comment.contents }</td>
 								<td>${comment.writer }</td>
-								<td>${comment.writerdate }</td>
+								<td>${comment.writedate }</td>
 							</tr>
 						</c:forEach>
 					</c:otherwise>
@@ -123,7 +128,7 @@ $(document).ready(function(){
 			<div id="comment">
 				<input type="hidden" name="article_no" value="${result.seq }" />
 				<textarea name="contents" id="comment_textarea" cols="90" rows="5"></textarea>
-				<button>등록</button>
+				<button id="commentbtn">등록</button>
 			</div>
 		</form>
 	</div>
