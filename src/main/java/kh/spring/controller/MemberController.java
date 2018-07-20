@@ -17,12 +17,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kh.spring.dto.MemberDTO;
 import kh.spring.impl.MemberService;
+import kh.spring.interfaces.IMemberService;
 
 @Controller
 public class MemberController {
 
 	@Autowired
-	MemberService mservice;
+	IMemberService mservice;
 
 	@RequestMapping("/join.me")
 	public String toJoin() {
@@ -40,7 +41,7 @@ public class MemberController {
 	@RequestMapping("/loginProc.me")
 	public ModelAndView toLoginProc(String id, String pw, HttpSession session) {
 		List<MemberDTO> result = mservice.loginMember(id, pw);
-		MemberDTO dto =result.get(0);
+		MemberDTO dto = result.get(0);
 		session.setAttribute("seq", dto.getSeq());
 		session.setAttribute("id", dto.getId());
 		session.setAttribute("pw", dto.getPw());

@@ -23,4 +23,16 @@ public class Aspect {
 		System.out.println(encPW);
 	}
 	
+	
+	@Pointcut("execution(* kh.spring.impl.MemberService.loginMember(..))")
+	public void login() {}
+	
+	@Before("login()")
+	public void encryptlogin(JoinPoint jp) {
+		String pw = (String)jp.getArgs()[1];
+		System.out.println("1"+pw);
+		pw = EncryptUtils.getSha256(pw);
+		System.out.println(pw);
+	}
+	
 }

@@ -17,8 +17,4 @@ public class EncryptUtils {
             return null;
         }
     }
-	
-	public static void main(String[] args) {
-		System.out.println(EncryptUtils.getSha256("a"));
-	}
 }
