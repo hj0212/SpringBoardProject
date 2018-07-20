@@ -32,8 +32,8 @@ public class BoardService implements IBoardService {
 	}
 
 	@Override
-	public int insertArticle(String title, String writer, String contents, String ip) {
-		return dao.insertArticle(title, writer, contents, ip);
+	public int insertArticle(BoardDTO dto) {
+		return dao.insertArticle(dto);
 	}
 
 	@Override
@@ -47,8 +47,8 @@ public class BoardService implements IBoardService {
 	}
 
 	@Override
-	public int editArticle(String title, String contents, String ip, int seq) {
-		return dao.editArticle(title, contents,ip,seq);
+	public int editArticle(BoardDTO dto) {
+		return dao.editArticle(dto);
 	}
 
 	@Override

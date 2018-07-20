@@ -45,6 +45,17 @@ div {
 	padding: 3px;
 }
 
+fieldset{
+	width: 500px;
+	height: 200px;
+	text-align: center;
+	margin: 100px auto;
+	padding: 50px auto;
+}
+legend{
+	color:red;
+}
+
 #commenttable {
 	width: 100%;
 	margin-top: 10px;
@@ -122,8 +133,6 @@ div {
 						<div id="contents" align="left">${result.contents}</div>
 						<div>
 							<button type="button" id="back">목록</button>
-							<button type="button" id="edit">수정</button>
-							<button type="button" id="delete">삭제</button>
 						</div>
 					</div>
 				</div>

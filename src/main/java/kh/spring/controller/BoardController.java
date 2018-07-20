@@ -69,7 +69,7 @@ public class BoardController {
 		String writer = (String)session.getAttribute("id");
 		String ip = request.getRemoteAddr();
 		System.out.println("BoardController writeArticleProc.bo :"+writer+":"+ip);
-		int result=service.insertArticle(title, writer, contents, "test:IP");
+		int result=service.insertArticle(new BoardDTO(0,title, writer , contents, "",0, ip));
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
 		mav.setViewName("writeArticleProcView.jsp");
@@ -77,18 +77,21 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/toArticle.bo")
-	public ModelAndView toArticle(int seq) {
+	public ModelAndView toArticle(HttpSession session, int seq) {
 		BoardDTO result = service.getArticle(seq);
 		List<CommentDTO> commentlist = service.getArticleComment(seq);
+		String loginId = (String) session.getAttribute("id");
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
 		mav.addObject("commentlist", commentlist);
+		mav.addObject("loginId", loginId);
 		mav.setViewName("article.jsp");
 		return mav;
 	}
 	
 	@RequestMapping("/toDeleteArticleProc.bo")
 	public ModelAndView deleteArticle(int seq) {
+		System.out.println("toDeleteArticleProc.bo : "+seq);
 		int result = service.deleteArticle(seq);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
@@ -98,6 +101,7 @@ public class BoardController {
 	
 	@RequestMapping("/toEditArticle.bo")
 	public ModelAndView toEditArticle(int seq) {
+		System.out.println("toEditArticle.bo : "+seq);
 		BoardDTO result = service.getArticle(seq);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
@@ -109,7 +113,7 @@ public class BoardController {
 	public ModelAndView editArticle(int seq, String title, String contents,HttpServletRequest req) {
 		String ip=req.getRemoteAddr();
 		System.out.println("toEditArticleProc.bo-ip:"+ip);
-		int result = service.editArticle(title,contents,ip,seq);		
+		int result = service.editArticle(new BoardDTO (seq,title,"",contents,"",0,ip));		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
 		mav.addObject("seq",seq);

@@ -164,9 +164,9 @@ public class BoardDAO implements IBoardDAO {
 	}
 
 	@Override
-	public int insertArticle(String title, String writer, String contents, String ip) {
+	public int insertArticle(BoardDTO dto) {
 		String sql="insert into boarddb values(board_seq.nextval,?,?,?,sysdate,0,?)";
-		return template.update(sql,title,writer,contents,ip);
+		return template.update(sql,dto.getTitle(),dto.getWriter(),dto.getContents(),dto.getIp());
 	}
 
 	@Override
@@ -197,9 +197,9 @@ public class BoardDAO implements IBoardDAO {
 	}
 
 	@Override
-	public int editArticle(String title, String contents, String ip, int seq) {
+	public int editArticle(BoardDTO dto) {
 		String sql="update boarddb set title=?, contents=?, writedate=sysdate where seq=?";
-		return template.update(sql,title, contents,seq);
+		return template.update(sql,dto.getTitle(),dto.getWriter(),dto.getContents(),dto.getSeq());
 	}
 
 	@Override
