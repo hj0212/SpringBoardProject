@@ -76,10 +76,13 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/toArticle.bo")
-	public ModelAndView toArticle(int seq) {
+	public ModelAndView toArticle(HttpSession session, int seq) {
 		BoardDTO result = service.getArticle(seq);
+		String loginId = (String) session.getAttribute("loginId");
+		System.out.println("toArticle.bo - loginId : "+loginId);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
+		mav.addObject("loginId", loginId);
 		mav.setViewName("article.jsp");
 		return mav;
 	}
