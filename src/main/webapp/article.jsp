@@ -80,21 +80,13 @@ legend {
 <script>
 	$(document).ready(function() {
 		$("#delete").click(function() {
-			location.href = "toDeleteArticleProc.bo?seq=" + $
-			{
-				result.seq
-			}
-			;
+			location.href = "toDeleteArticleProc.bo?seq=" + ${result.seq};
 		})
 		$("#back").click(function() {
 			location.href = "boardlist.bo";
 		})
 		$("#edit").click(function() {
-			location.href = "toEditArticle.bo?seq=" + $
-			{
-				result.seq
-			}
-			;
+			location.href = "toEditArticle.bo?seq=" + ${result.seq};
 		})
 	})
 </script>
