@@ -42,7 +42,6 @@ input {
 				<input type="password" name="pw" id="pwtext"
 					placeholder="비밀번호를 입력하세용"> <br> <input type="text"
 					name="email" id="emailtext" placeholder="이메일을 입력하세용"><br>
-
 			</div>
 			<div id="btns">
 				<button id="signB" type="button">회원 가입</button>

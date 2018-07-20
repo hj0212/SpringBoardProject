@@ -1,12 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>login</title>
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <style>
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
@@ -110,16 +107,19 @@ body {
 }
 </style>
 
+
+<title>Insert title here</title>
+
 </head>
 
 <body>
 <div class="login-page">
   <div class="form">
     <form class="login-form" action="loginProc.me" method="post">
-      <input type="text" placeholder="ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš©" name="id"/>
-      <input type="password" placeholder="ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”" name="pw"/>
-      <button id="loginB">ë¡œê·¸ì¸</button>
-      <p class="message">ì•„ì´ë””ê°€ ì—†ìœ¼ì„¸ìš”? <a href="join.me">íšŒì› ê°€ì…</a></p>
+      <input type="text" placeholder="¾ÆÀÌµğ¸¦ ÀÔ·ÂÇÏ¼¼¿ë" name="id"/>
+      <input type="password" placeholder="ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä" name="pw"/>
+      <button id="loginB">·Î±×ÀÎ</button>
+      <p class="message">¾ÆÀÌµğ°¡ ¾øÀ¸¼¼¿ä? <a href="join.me">È¸¿ø °¡ÀÔ</a></p>
     </form>
   </div>
 </div>
