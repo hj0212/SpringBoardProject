@@ -24,4 +24,9 @@ public class MemberService implements IMemberService{
 		return mdao.loginMember(id, pw);
 	}
 
+	@Override
+	public List<MemberDTO> idCheck(String id) {
+		return mdao.idCheck(id);
+	}
+
 }

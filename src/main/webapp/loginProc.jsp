@@ -13,7 +13,7 @@
 		<c:when test="${loginresult[0] eq null}">
 			<script>
 				alert("다시 로그인 해주세요.");
-				location.href="login.jsp"
+				location.href="login.jsp";
 			</script>
 		</c:when>
 		<c:otherwise>

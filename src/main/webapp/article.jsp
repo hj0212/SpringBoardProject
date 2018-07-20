@@ -96,8 +96,8 @@ legend{
 						<c:if test="${loginId == result.writer}">
 							<button type="button" id="edit">수정</button>
 							<button type="button" id="delete">삭제</button>
-						</div>
 						</c:if>
+						</div>
 					</div>
 					</div>
 				</div>

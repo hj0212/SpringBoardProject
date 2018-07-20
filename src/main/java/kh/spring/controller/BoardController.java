@@ -63,12 +63,12 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/toWriteArticleProc.bo")
-	public ModelAndView writeArticle(HttpSession session,String title,String contents) {
+	public ModelAndView writeArticle(HttpServletRequest req, HttpSession session,String title,String contents) {
 		String writer = (String) session.getAttribute("id");
-		String ip = (String) session.getAttribute("ip");
+		String ip = req.getRemoteAddr();
 		System.out.println("writer/ip 넣지않음");
 		System.out.println("BoardController writeArticleProc.bo :"+writer+":"+ip);
-		int result=service.insertArticle(title, "test:writer", contents, "test:IP");
+		int result=service.insertArticle(new BoardDTO(0,title, writer , contents, "",0, ip));
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
 		mav.setViewName("writeArticleProcView.jsp");
@@ -78,7 +78,7 @@ public class BoardController {
 	@RequestMapping("/toArticle.bo")
 	public ModelAndView toArticle(HttpSession session, int seq) {
 		BoardDTO result = service.getArticle(seq);
-		String loginId = (String) session.getAttribute("loginId");
+		String loginId = (String) session.getAttribute("id");
 		System.out.println("toArticle.bo - loginId : "+loginId);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
@@ -89,6 +89,7 @@ public class BoardController {
 	
 	@RequestMapping("/toDeleteArticleProc.bo")
 	public ModelAndView deleteArticle(int seq) {
+		System.out.println("toDeleteArticleProc.bo : "+seq);
 		int result = service.deleteArticle(seq);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
@@ -98,6 +99,7 @@ public class BoardController {
 	
 	@RequestMapping("/toEditArticle.bo")
 	public ModelAndView toEditArticle(int seq) {
+		System.out.println("toEditArticle.bo : "+seq);
 		BoardDTO result = service.getArticle(seq);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
@@ -109,7 +111,7 @@ public class BoardController {
 	public ModelAndView editArticle(int seq, String title, String contents,HttpServletRequest req) {
 		String ip=req.getRemoteAddr();
 		System.out.println("toEditArticleProc.bo-ip:"+ip);
-		int result = service.editArticle(title,contents,ip,seq);		
+		int result = service.editArticle(new BoardDTO (seq,title,"",contents,"",0,ip));		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
 		mav.addObject("seq",seq);
