@@ -14,4 +14,5 @@ public interface IBoardDAO {
 	public int deleteArticle(int seq);
 	public int editArticle(String title, String contents, String ip, int seq);	
 	public List<CommentDTO> getArticleComment(int seq);
+	public int insertComment(CommentDTO dto);
 }

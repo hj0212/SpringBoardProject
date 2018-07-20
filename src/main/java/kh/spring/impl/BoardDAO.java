@@ -221,6 +221,12 @@ public class BoardDAO implements IBoardDAO {
 		}, seq);
 	}
 
+	@Override
+	public int insertComment(CommentDTO dto) {
+		String sql = "insert into board_commentdb values(?,board_comment_seq.nextval,?,?,sysdate,?)";
+		return template.update(sql, dto.getArticle_no(), dto.getContents(), dto.getWriter(), dto.getIp());
+	}
+
 	
 	
 	

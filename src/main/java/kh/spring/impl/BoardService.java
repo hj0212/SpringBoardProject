@@ -56,4 +56,9 @@ public class BoardService implements IBoardService {
 		return dao.getArticleComment(seq);
 	}
 
+	@Override
+	public int insertComment(CommentDTO dto) {
+		return dao.insertComment(dto);
+	}
+
 }

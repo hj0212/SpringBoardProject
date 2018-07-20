@@ -116,4 +116,16 @@ public class BoardController {
 		mav.setViewName("editArticleProcView.jsp");
 		return mav;
 	}
+	
+	@RequestMapping("/comment.bo")
+	public String writeComment(HttpServletRequest request, String article_no, CommentDTO dto) {
+		String ip = request.getRemoteAddr();
+		int article_nonum = Integer.parseInt(article_no);
+		dto.setIp(ip);
+		dto.setArticle_no(article_nonum);
+		int result = service.insertComment(dto);
+		
+		return "toArticle.bo?seq=" + article_no;
+	}
+	
 }
