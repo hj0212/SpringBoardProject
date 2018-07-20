@@ -130,14 +130,14 @@ public class BoardController {
 		dto.setWriter(writer);
 		service.insertComment(dto);
 		
-		return "toArticle.bo?seq=" + article_no;
+		return "redirect:toArticle.bo?seq=" + article_no;
 	}
 	
 	@RequestMapping("/toRemoveComment.bo")
 	public String removeComment(String seq, int comseq) {
 		System.out.println(seq + ":" + comseq);
 		service.deleteComment(comseq);
-		return "toArticle.bo?seq=" + seq;
+		return "redirect:toArticle.bo?seq="+seq;
 	}
 	
 }
