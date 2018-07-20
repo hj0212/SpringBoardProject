@@ -41,10 +41,10 @@ public class MemberDAO implements IMemberDAO {
 	}
 
 	@Override
-	public MemberDTO idCheck(String id) {
+	public List<MemberDTO> idCheck(String id) {
 		String sql="select * from memberdb where id=?";
-		Object[] param = {id};
-		return template.queryForObject(sql, param, new RowMapper<MemberDTO>() {
+		Object[] param = {id};	
+		return template.query(sql, param, new RowMapper<MemberDTO>() {
 			public MemberDTO mapRow(ResultSet rs, int rowNum)throws SQLException{
 				MemberDTO tmp = new MemberDTO();
 				tmp.setSeq(rs.getInt("seq"));
@@ -53,8 +53,7 @@ public class MemberDAO implements IMemberDAO {
 				tmp.setEmail(rs.getString("email"));
 				return tmp;
 			}
-		});
-		
+		});		
 	}
 			
 			

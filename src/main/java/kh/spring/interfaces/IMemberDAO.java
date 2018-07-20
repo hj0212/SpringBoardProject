@@ -9,5 +9,5 @@ public interface IMemberDAO {
 	
 	public List<MemberDTO> loginMember(String id, String pw);
 	
-	public MemberDTO idCheck(String id);
+	public List<MemberDTO> idCheck(String id);
 }

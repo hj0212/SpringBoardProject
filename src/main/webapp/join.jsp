@@ -56,7 +56,7 @@ input {
 		$(location).attr("href","login.jsp");
 	})
 	
-	$("#pwtext").focus(function(){
+	$("#idtext").blur(function(){
 		var value = $("#idtext").val();
 		console.log(value);
 		$.ajax({
