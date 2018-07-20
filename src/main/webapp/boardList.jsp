@@ -19,7 +19,8 @@ div {
 
 table {
 	width: 100%;
-	margin: 50px auto;
+	margin: 30px auto 10px auto;
+	text-align: center;
 }
 
 .center {
@@ -33,6 +34,14 @@ table {
 
 #write {
 	float: right;
+}
+
+#page {
+	float: left;
+}
+
+#page a{
+	text-decoration: none;
 }
 </style>
 <script>
@@ -49,12 +58,12 @@ table {
 		<div>
 			<h1 class="center">게시판</h1>
 		</div>
-		<table border="1" class="center">
+		<table border="1">
 			<tr>
 				<td>글번호</td>
 				<td width="300px">글제목</td>
 				<td width="100px">작성자</td>
-				<td width="100px">작성일</td>
+				<td width="110px">작성일</td>
 				<td>조회수</td>
 			</tr>
 			<c:choose>
@@ -77,13 +86,11 @@ table {
 			</c:choose>
 		</table>
 		<div id="searcharea">
+		<div id="page">${pageNavi}</div>
 			<form action="search.bo">
 				<input type="text" name="keyword" />
 				<button id="searchbtn">검색</button>
 			</form>
-		</div>
-		<div id="section">
-			<div id="page">${pageNavi}</div>
 			<button id="write">글쓰기</button>
 		</div>
 	</div>

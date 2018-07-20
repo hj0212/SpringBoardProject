@@ -1,9 +1,9 @@
 package kh.spring.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.spring.dto.BoardDTO;
+import kh.spring.dto.CommentDTO;
 import kh.spring.interfaces.IBoardService;
 
 @Controller
@@ -22,7 +23,7 @@ public class BoardController {
 
 	@RequestMapping("/boardlist.bo")
 	public ModelAndView goBoardList(String currentPage, String searchTerm) {
-		List<BoardDTO> list = service.getBoardData();
+		
 		int currentPagenum = 0;
 
 		if(currentPage == null) {
@@ -30,6 +31,7 @@ public class BoardController {
 		} else {
 			currentPagenum = Integer.parseInt(currentPage);
 		}
+		List<BoardDTO> list = service.getBoardData(currentPagenum*10-9, currentPagenum*10);
 		String pageNavi = service.getPageNavi(currentPagenum, searchTerm);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
@@ -63,10 +65,9 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/toWriteArticleProc.bo")
-	public ModelAndView writeArticle(HttpServletRequest req, HttpSession session,String title,String contents) {
-		String writer = (String) session.getAttribute("id");
-		String ip = req.getRemoteAddr();
-		System.out.println("writer/ip 넣지않음");
+	public ModelAndView writeArticle(HttpServletRequest request, HttpSession session,String title,String contents) {
+		String writer = (String)session.getAttribute("id");
+		String ip = request.getRemoteAddr();
 		System.out.println("BoardController writeArticleProc.bo :"+writer+":"+ip);
 		int result=service.insertArticle(new BoardDTO(0,title, writer , contents, "",0, ip));
 		ModelAndView mav = new ModelAndView();
@@ -78,10 +79,11 @@ public class BoardController {
 	@RequestMapping("/toArticle.bo")
 	public ModelAndView toArticle(HttpSession session, int seq) {
 		BoardDTO result = service.getArticle(seq);
+		List<CommentDTO> commentlist = service.getArticleComment(seq);
 		String loginId = (String) session.getAttribute("id");
-		System.out.println("toArticle.bo - loginId : "+loginId);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
+		mav.addObject("commentlist", commentlist);
 		mav.addObject("loginId", loginId);
 		mav.setViewName("article.jsp");
 		return mav;
@@ -118,4 +120,18 @@ public class BoardController {
 		mav.setViewName("editArticleProcView.jsp");
 		return mav;
 	}
+	
+	@RequestMapping("/comment.bo")
+	public String writeComment(HttpServletRequest request, HttpSession session, String article_no, CommentDTO dto) {
+		String ip = request.getRemoteAddr();
+		int article_nonum = Integer.parseInt(article_no);
+		String writer = (String)session.getAttribute("id");
+		dto.setIp(ip);
+		dto.setArticle_no(article_nonum);
+		dto.setWriter(writer);
+		service.insertComment(dto);
+		
+		return "toArticle.bo?seq=" + article_no;
+	}
+	
 }

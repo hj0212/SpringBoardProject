@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.spring.dto.MemberDTO;
@@ -52,14 +53,15 @@ public class MemberController {
 	
 	
 	@RequestMapping(value="/idCheck.me", method=RequestMethod.GET)
-	public int toIdCheck(Model model, HttpServletRequest request){
-		int result=0;
+	@ResponseBody
+	public int toIdCheck(HttpServletRequest request){
+		int result=1;
 		String id= request.getParameter("id");
 		/*System.out.println(id);*/
 		List<MemberDTO> list =mservice.idCheck(id);
 		System.out.println(list.size());
 		if(list.isEmpty()) {
-			result=1;
+			result=0;
 			}
 		/*ModelAndView mav = new ModelAndView();
 		mav.addObject("idCheckresult",result);*/
