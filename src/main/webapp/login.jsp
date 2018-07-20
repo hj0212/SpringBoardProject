@@ -13,7 +13,6 @@ button {
 	background-color: white;
 	margin-right:25px;
 }
-
 button:hover {
 	background-color: skyblue;
 }
@@ -38,7 +37,7 @@ input {
 		<form action="loginProc.me" method="post">
 			<div>
 				<input type="text" name="id" placeholder="아이디를 입력하세용"> <br>
-				<input type="text" name="pw" placeholder="비밀번호를 입력하세용"> <br>
+				<input type="password" name="pw" placeholder="비밀번호를 입력하세용"> <br>
 
 			</div>
 			<div id="btns">

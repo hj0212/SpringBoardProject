@@ -36,16 +36,16 @@ input {
 </head>
 <body>
 	<div id="wrap">
-		<form action="joinProc.me" method="post">
+		<form action="joinProc.me" method="post" id="joinForm">
 			<div>
 				<input type="text" name="id" id="idtext" placeholder="아이디를 입력하세용"> <br>
 				<input type="text" readonly id="idCheck"><br>
 				<input type="password" name="pw" id="pwtext" placeholder="비밀번호를 입력하세용"> <br>
-				<input type="text" name="email" placeholder="이메일을 입력하세용"><br>
+				<input type="text" name="email" id="emailtext" placeholder="이메일을 입력하세용"><br>
 
 			</div>
 			<div id="btns">				
-				<button id="signB">회원 가입</button>
+				<button id="signB" type="button">회원 가입</button>
 				<button  type="button" id="backB">뒤로 가기</button>
 			</div>
 		</form>
@@ -53,24 +53,33 @@ input {
 	
 	<script>
 	$("#backB").click(function(){
-		$(location).attr("href","login.jsp");
+		$(location).attr("href","login.jsp");	
+	})
+	
+	$("#signB").click(function(){
+		if($("#idtext").val()!="" && $("#pwtext").val()!="" && $("#emailtext").val()!=""){
+			$("#joinForm").submit();
+		}else{
+			alert("빈칸을 채워주세요.");			
+		}	
 	})
 	
 	$("#idtext").blur(function(){
-		var value = $("#idtext").val();
-		console.log(value);
+	
 		$.ajax({
 			url:"idCheck.me",
 			type:"get",
-			data:{id:value}, 
+			data:{id:$("#idtext").val()}, 
 			success:function(data){		
 				if(data == 0){
-					$("#idCheck").val("사용가능한 아이디 입니다.");	
+				/* 	$("#idCheck").text("사용가능한 아이디 입니다.");	 */
+				alert("사용가능");
 				}else{
-				$("#idCheck").val("사용중인 아이디 입니다.");
+				/* $("#idCheck").text("사용중인 아이디 입니다."); */
+				alert("사용불가");
 				}
 				},
-			error:function(){console.log("AJAX Request 실패 에러 발생");}  
+			error:function(){console.log("AJAX 실패 에러 발생");}  
 		})
 	})
 	</script>
