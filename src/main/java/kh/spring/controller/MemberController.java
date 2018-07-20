@@ -1,8 +1,10 @@
 package kh.spring.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,10 @@ import kh.spring.impl.MemberService;
 
 @Controller
 public class MemberController {
-	
+
 	@Autowired
 	MemberService mservice;
-	
+
 	@RequestMapping("/join.me")
 	public String toJoin() {
 		return "redirect:join.jsp";
@@ -34,7 +36,7 @@ public class MemberController {
 		mav.setViewName("joinProc.jsp");
 		return mav;
 	} 
-	
+
 	@RequestMapping("/loginProc.me")
 	public ModelAndView toLoginProc(String id, String pw, HttpSession session) {
 		List<MemberDTO> result = mservice.loginMember(id, pw);
@@ -43,28 +45,28 @@ public class MemberController {
 		session.setAttribute("id", dto.getId());
 		session.setAttribute("pw", dto.getPw());
 		session.setAttribute("email", dto.getEmail());
-	
+
 		ModelAndView mav = new ModelAndView();		
 		mav.addObject("loginresult",result);	
 		mav.setViewName("loginProc.jsp");
 		return mav;
 	}
-	
-	
-	
+
+
+
 	@RequestMapping(value="/idCheck.me", method=RequestMethod.GET)
 	@ResponseBody
-	public int toIdCheck(HttpServletRequest request){
+	public void toIdCheck(HttpServletRequest request, HttpServletResponse resp) throws IOException{
 		int result=1;
 		String id= request.getParameter("id");
 		/*System.out.println(id);*/
 		List<MemberDTO> list =mservice.idCheck(id);
-		System.out.println(list.size());
+		/*System.out.println(list.size());*/
 		if(list.isEmpty()) {
 			result=0;
-			}
+		}
+		resp.getWriter().append(String.valueOf(result));
 		/*ModelAndView mav = new ModelAndView();
 		mav.addObject("idCheckresult",result);*/
-		return result;
 	}
 }
