@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Board">
+	<select id="getAllData" resultType="Board">
+		select * from (select seq,title,writer,contents,writedate,viewcount,ip, row_number() over(order by seq desc) as rnum from boarddb) where (rnum between #{startNum} and #{endNum})
+		<if test="searchTerm != null">
+			and title=#{searchTerm} 
+		</if>	
+	</select>
+	<select id="getTotalCount" resultType="Integer">
+		select count(*) totalCount from boarddb
+		<if test="searchTerm != null">
+			where title=#{searchTerm} 
+		</if>
+	</select>
+	
+	
+	<select id="getArticle" resultType="Board">
+		select * from boarddb where seq=#{seq}
+	</select>
+	<insert id="insertArticle" parameterType="Board">
+		insert into boarddb values(board_seq.nextval,#{title},#{writer},#{contents},sysdate,0,#{ip})
+	</insert>
+	<delete id="deleteArticle">
+		delete from boarddb where seq=#{seq}
+	</delete>
+	<update id="updateArticle" parameterType="Board">
+		update boarddb set title=#{title}, contents=#{contents}, ip=#{ip}, writedate=sysdate where seq=#{seq}
+	</update>
+	
+	<update id="updateViewCount">
+		update boarddb set viewcount=nvl(viewcount,0)+1 where seq=#{seq}
+	</update>
+	
+	
+	
+	
+	<select id="getCommentData" resultType="Comment">
+		select * from board_commentdb where article_no = #{seq}
+	</select>
+	<insert id="insertComment" parameterType="Comment">
+		insert into board_commentdb values(#{article_no},board_comment_seq.nextval,#{contents},#{writer},sysdate,#{ip})
+	</insert>
+	<delete id="deleteComment">
+		delete from board_commentdb where seq=#{seq}
+	</delete>
+</mapper>

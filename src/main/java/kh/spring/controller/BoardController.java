@@ -1,12 +1,13 @@
 package kh.spring.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,7 +23,7 @@ public class BoardController {
 	private IBoardService service;
 
 	@RequestMapping("/boardlist.bo")
-	public ModelAndView goBoardList(String currentPage, String searchTerm) {
+	public ModelAndView goBoardList(String currentPage) {
 		
 		int currentPagenum = 0;
 
@@ -31,8 +32,17 @@ public class BoardController {
 		} else {
 			currentPagenum = Integer.parseInt(currentPage);
 		}
-		List<BoardDTO> list = service.getBoardData(currentPagenum*10-9, currentPagenum*10);
-		String pageNavi = service.getPageNavi(currentPagenum, searchTerm);
+		
+		Map<String, String> condition = new HashMap();
+		int startNum = currentPagenum*10-9;
+		int endNum = currentPagenum*10;
+		condition.put("startNum", ""+startNum);
+		condition.put("endNum", ""+endNum);
+		condition.put("currentPage", ""+currentPagenum);
+		System.out.println("currentPage" + currentPagenum);
+		
+		List<BoardDTO> list = service.getBoardData(condition);
+		String pageNavi = service.getPageNavi(condition);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
 		mav.addObject("pageNavi", pageNavi);
@@ -41,7 +51,7 @@ public class BoardController {
 	}
 
 	@RequestMapping("/search.bo")
-	public ModelAndView getSearchData(String currentPage, String keyword) {
+	public ModelAndView getSearchData(String currentPage, String searchTerm) {
 		int currentPagenum = 0;
 
 		if(currentPage == null) {
@@ -49,9 +59,17 @@ public class BoardController {
 		} else {
 			currentPagenum = Integer.parseInt(currentPage);
 		}
+		
+		Map<String, String> condition = new HashMap();
+		int startNum = currentPagenum*10-9;
+		int endNum = currentPagenum*10;
+		condition.put("startNum", ""+startNum);
+		condition.put("endNum", ""+endNum);
+		condition.put("currentPage", ""+currentPagenum);
+		condition.put("searchTerm", searchTerm);
 
-		List<BoardDTO> list = service.getSearchData(currentPagenum*10-9, currentPagenum*10, keyword);
-		String pageNavi = service.getPageNavi(currentPagenum, keyword);
+		List<BoardDTO> list = service.getSearchData(condition);
+		String pageNavi = service.getPageNavi(condition);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
 		mav.addObject("pageNavi", pageNavi);

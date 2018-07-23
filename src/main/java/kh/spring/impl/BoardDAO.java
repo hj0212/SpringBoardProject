@@ -1,12 +1,10 @@
 package kh.spring.impl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import kh.spring.dto.BoardDTO;
@@ -17,96 +15,23 @@ import kh.spring.interfaces.IBoardDAO;
 public class BoardDAO implements IBoardDAO {
 
 	@Autowired
-	private JdbcTemplate template;
+	private SqlSessionTemplate template;
 
 	@Override
-	public List<BoardDTO> getBoardData(int startNum, int endNum) {
-		String sql = "select * from (select seq,title,writer,contents,writedate,viewcount,ip, row_number() over(order by seq desc) as rnum from boarddb) where rnum between ? and ?";
-		Object[] params = {startNum, endNum};
-		return template.query(sql, params, new RowMapper<BoardDTO>() {
-
-			@Override
-			public BoardDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-				BoardDTO dto = new BoardDTO();
-				dto.setSeq(rs.getInt("seq"));
-				dto.setTitle(rs.getString("title"));
-				dto.setWriter(rs.getString("writer"));
-				dto.setContents(rs.getString("contents"));
-				dto.setWritedate(rs.getString("writedate"));
-				dto.setViewcount(rs.getInt("viewcount"));
-				dto.setIp(rs.getString("ip"));
-				return dto;
-			}
-		});
+	public List<BoardDTO> getBoardData(Map<String, String> condition) {
+		return template.selectList("Board.getAllData", condition);
 	}
 
 	@Override
-	public List<BoardDTO> getSearchData(int startNum, int endNum, String searchTerm) {
-		String sql = null;
-
-		if(searchTerm == null || searchTerm.equals("null")) {
-			sql = "select * from (select seq,title,writer,contents,writedate,viewcount,ip, row_number() over(order by seq desc) as rnum from boarddb) where rnum between ? and ?";
-			Object[] params = {startNum,endNum};
-			return template.query(sql, params, new RowMapper<BoardDTO>() {
-
-				@Override
-				public BoardDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-					BoardDTO dto = new BoardDTO();
-					dto.setSeq(rs.getInt("seq"));
-					dto.setTitle(rs.getString("title"));
-					dto.setWriter(rs.getString("writer"));
-					dto.setContents(rs.getString("contents"));
-					dto.setWritedate(rs.getString("writedate"));
-					dto.setViewcount(rs.getInt("viewcount"));
-					dto.setIp(rs.getString("ip"));
-					return dto;
-				}
-			});
-		} else {
-			sql = "select * from (select seq,title,writer,contents,writedate,viewcount,ip, row_number() over(order by seq desc) as rnum from boarddb) where title=? and rnum between ? and ?";
-			Object[] params = {searchTerm,startNum,endNum};
-			return template.query(sql, params, new RowMapper<BoardDTO>() {
-
-				@Override
-				public BoardDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-					BoardDTO dto = new BoardDTO();
-					dto.setSeq(rs.getInt("seq"));
-					dto.setTitle(rs.getString("title"));
-					dto.setWriter(rs.getString("writer"));
-					dto.setContents(rs.getString("contents"));
-					dto.setWritedate(rs.getString("writedate"));
-					dto.setViewcount(rs.getInt("viewcount"));
-					dto.setIp(rs.getString("ip"));
-					return dto;
-				}
-			});
-		}
+	public List<BoardDTO> getSearchData(Map<String, String> condition) {
+		return template.selectList("Board.getSearchData", condition);
 	}
 
 	@Override
-	public String getPageNavi(int currentPage, String searchTerm) {
+	public String getPageNavi(Map<String, String> condition) {
 		String sql = null;
 		int recordTotalCount = 0; // 전체 글(레코드)의 개수를 저장하는 변수
-		if(searchTerm == null || searchTerm.equals("null")) {
-			sql = "select count(*) totalCount from boarddb";
-			recordTotalCount = template.query(sql, new RowMapper<Integer>() {
-				@Override
-				public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-					return rs.getInt(1);
-				}
-
-			}).get(0);
-		} else {
-			sql = "select count(*) totalCount from boarddb where title = ?";
-			Object[] params = {searchTerm};
-			recordTotalCount = template.query(sql, params, new RowMapper<Integer>() {
-				@Override
-				public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-					return rs.getInt(1);
-				}
-
-			}).get(0);
-		}
+		recordTotalCount = (Integer) template.selectList("Board.getTotalCount", condition).get(0);
 
 		int recordCountPerPage = 10;  // 한 페이지에 게시글이 몇개 보일건지
 		int naviCountPerPage = 10;  // 한 페이지에서 네비게이터가 몇개씩 보일건지
@@ -117,7 +42,8 @@ public class BoardDAO implements IBoardDAO {
 		} else {
 			pageTotalCount = recordTotalCount / recordCountPerPage;
 		}
-
+		
+		int currentPage = Integer.parseInt(condition.get("currentPage"));
 		if(currentPage < 1) {	// 현재 페이지가 비정상인지 검증하는 코드
 			currentPage = 1;
 		} else if(currentPage > pageTotalCount) {
@@ -143,7 +69,7 @@ public class BoardDAO implements IBoardDAO {
 		}
 
 		StringBuilder sb = new StringBuilder();
-
+		String searchTerm = condition.get("searchTerm");
 		if(needPrev) {
 			sb.append("<a class='page-link' href='boardlist.bo?currentPage="+(startNavi-1)+"&search="+searchTerm+"'> Previous </a>");
 		}
@@ -165,78 +91,42 @@ public class BoardDAO implements IBoardDAO {
 
 	@Override
 	public int insertArticle(BoardDTO dto) {
-		String sql="insert into boarddb values(board_seq.nextval,?,?,?,sysdate,0,?)";
-		return template.update(sql,dto.getTitle(),dto.getWriter(),dto.getContents(),dto.getIp());
+		return template.insert("Board.insertArticle", dto);
 	}
 
 	@Override
 	public BoardDTO getArticle(int seq) {
-		String sql="select * from boarddb where seq=?";
-		return template.queryForObject(sql, new RowMapper<BoardDTO>() {
-
-			@Override
-			public BoardDTO mapRow(ResultSet rs, int row) throws SQLException {
-				BoardDTO dto = new BoardDTO();
-				dto.setSeq(rs.getInt("seq"));
-				dto.setTitle(rs.getString("title"));
-				dto.setWriter(rs.getString("writer"));
-				dto.setContents(rs.getString("contents"));
-				dto.setWritedate(rs.getString("writedate"));
-				dto.setViewcount(rs.getInt("viewcount"));
-				dto.setIp(rs.getString("ip"));
-				return dto;
-			}
-			
-		},seq);
+		return (BoardDTO) template.selectList("Board.getArticle", seq).get(0);
 	}
 
 	@Override
 	public int deleteArticle(int seq) {
-		String sql = "delete from boarddb where seq=?";
-		return template.update(sql,seq);
+		return template.delete("Board.deleteArticle", seq);
 	}
 
 	@Override
 	public int editArticle(BoardDTO dto) {
-		String sql="update boarddb set title=?, contents=?, ip=?, writedate=sysdate where seq=?";
-		return template.update(sql,dto.getTitle(),dto.getContents(),dto.getIp(), dto.getSeq());
+		return template.update("Board.updateArticle", dto);
 	}
 
 	@Override
 	public List<CommentDTO> getArticleComment(int seq) {
-		String sql = "select * from board_commentdb where article_no = ?";
-		return template.query(sql, new RowMapper<CommentDTO>() {
-			@Override
-			public CommentDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-				CommentDTO dto = new CommentDTO();
-				dto.setArticle_no(rs.getInt("article_no"));
-				dto.setSeq(rs.getInt("seq"));
-				dto.setContents(rs.getString("contents"));
-				dto.setWriter(rs.getString("writer"));
-				dto.setWritedate(rs.getString("writedate"));
-				dto.setIp(rs.getString("ip"));
-				return dto;
-			}
-			
-		}, seq);
+		return template.selectList("Board.getCommentData", seq);
 	}
 
 	@Override
 	public int insertComment(CommentDTO dto) {
-		String sql = "insert into board_commentdb values(?,board_comment_seq.nextval,?,?,sysdate,?)";
-		return template.update(sql, dto.getArticle_no(), dto.getContents(), dto.getWriter(), dto.getIp());
+		return template.insert("Board.insertComment", dto);
 	}
 
 	@Override
 	public int deleteComment(int comseq) {
-		String sql = "delete from board_commentdb where seq=?";
-		return template.update(sql, comseq);
+		return template.delete("Board.deleteComment", comseq);
 	}
 
 	@Override
 	public int updateViewCount(int seq) {
-		String sql = "update boarddb set viewcount=nvl(viewcount,0)+1 where seq=?";
-		return template.update(sql,seq);
+		return template.update("Board.updateViewCount", seq);
 	}
 
 	

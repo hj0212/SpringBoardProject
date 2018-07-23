@@ -1,14 +1,15 @@
 package kh.spring.interfaces;
 
 import java.util.List;
+import java.util.Map;
 
 import kh.spring.dto.BoardDTO;
 import kh.spring.dto.CommentDTO;
 
 public interface IBoardDAO {
-	public List<BoardDTO> getBoardData(int startNum, int endNum);
-	public List<BoardDTO> getSearchData(int startNum, int endNum, String keyword);
-	public String getPageNavi(int currentPage, String searchTerm);
+	public List<BoardDTO> getBoardData(Map<String, String> condition);
+	public List<BoardDTO> getSearchData(Map<String, String> condition);
+	public String getPageNavi(Map<String, String> condition);
 	public int insertArticle(BoardDTO dto);
 	public BoardDTO getArticle(int seq);
 	public int deleteArticle(int seq);
